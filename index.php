@@ -80,6 +80,49 @@
       $("li > a").first().parent().addClass("active");
     }
   }
+
+  $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        console.log(a)
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+    function formValidator(form, error) {
+      $(form).on("input", function() {
+        $(error).html("");
+        var nameRegex =  /^[a-zA-Z]'?[-a-zA-Z]+$/;
+        var usernameRegex =  /^[a-zA-Z0-9_]+$/;
+        var emailRegex =  /^[A-Za-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{1,4}[^\\S]+$/;
+        var track = 0;
+        $(this).find("input[name]").each(function(){
+          var inputName = $(this).attr("name").trim();
+          var inputVal = $(this).val();
+          if((inputName == "firstname" || inputName == "lastname") && inputVal&& !nameRegex.test(inputVal))
+            $(error).append($("<li></li>").html("Only A-Z, a-z, - and ' allowed on "+inputName));
+          else if((inputName == "username") && inputVal&& !usernameRegex.test(inputVal))
+            $(error).append($("<li></li>").html("Only A-Z, a-z, 0-9 and _ allowed "+inputName));
+          else if((inputName == "email") && inputVal&& !emailRegex.test(inputVal))
+            $(error).append($("<li></li>").html("Formart should be example@domain.com"));
+          if (!inputVal) track++;
+        })
+        if (track == 0 && !$(error).html().trim())
+          $("input[type='submit']").removeClass("disabled")
+        else 
+          $("input[type='submit']").addClass("disabled")
+      });
+    };
+  
   
 
   $(document).ready(function () {
