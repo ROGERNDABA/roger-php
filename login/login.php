@@ -34,7 +34,7 @@ if ($db) {
 							<input type="password" class="form-control" id="password" placeholder="Password" name="password" />
 						</div>
 						<div class="form-group col-md-6 mt-4">
-							<input type="submit" class="btn btn-block" value="Submit" name="submit" />
+							<input type="submit" class="btn btn-block" value="Submit" name="submit" disabled="disabled" />
 						</div>
 					</div>
 				</form>

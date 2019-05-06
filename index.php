@@ -84,7 +84,6 @@
   $.fn.serializeObject = function() {
         var o = {};
         var a = this.serializeArray();
-        console.log(a)
         $.each(a, function() {
             if (o[this.name]) {
                 if (!o[this.name].push) {
@@ -116,10 +115,13 @@
             $(error).append($("<li></li>").html("Formart should be example@domain.com"));
           if (!inputVal) track++;
         })
-        if (track == 0 && !$(error).html().trim())
+        if (track == 0 && !$(error).html().trim()) {
           $("input[type='submit']").removeClass("disabled")
-        else 
+          $("input[type='submit']").removeAttr("disabled");
+        } else { 
           $("input[type='submit']").addClass("disabled")
+          $("input[type='submit']").attr("disabled", "disabled")
+        }
       });
     };
   

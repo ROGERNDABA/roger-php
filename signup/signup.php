@@ -1,16 +1,17 @@
-<pre>
 <?php
 require("../config/init.php");
 
+
 $db = new Init("GetSchwifty");
 $g = new General();
-$g->CheckRequest("XMLHttpRequest");
-
+$g->CheckRequest("xmlhttpRequest");
 if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
-	echo "ff";
+	echo "<small><pre>";
+	print_r($_POST);
+	echo "</pre></small>";
+	exit;
 }
 ?>
-</pre>
 <div class="row justify-content-center">
 	<div class="col-lg-8">
 		<div class="card">
@@ -49,7 +50,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 							<input type="password" class="form-control" id="password2" placeholder="Cornfirm Password" name="password2" />
 						</div>
 						<div class="form-group col-md-6 mt-4">
-							<input type="submit" class="btn btn-block disabled" value="Submit" name="submit" />
+							<input type="submit" class="btn btn-block disabled" disabled="disabled" value="Submit" name="submit" />
 						</div>
 					</div>
 				</form>
@@ -74,7 +75,17 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 
 		$("#signup-form").submit(function(e) {
 			e.preventDefault();
-			console.log($(this).serializeObject());
+			var formData = $(this).serializeObject();
+			formData["submit"] = "ok";
+			$.ajax({
+				type: "POST",
+				url: "/signup/signup.php",
+				data: formData,
+				success: function (response) {
+					$(".container").prepend(response)
+					console.log(response)
+				}
+			});
 		});
 	});
 </script>
