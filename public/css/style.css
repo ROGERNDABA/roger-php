@@ -70,6 +70,19 @@ input {
 	background-color: #ffffff !important;
 }
 
+.meter {
+	width: 100%;
+}
+
+.meter-bar {
+	overflow: hidden;
+	width: 0;
+}
+
+.meter-bar div {
+	min-width: 300px;
+}
+
 #form-error {
 	color: red !important;
 }
@@ -83,9 +96,15 @@ input {
 	html {
 		font-size: 0.8em;
 	}
+	.meter-bar div {
+		min-width: 150px;
+	}
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
+	.meter-bar div {
+		min-width: 190px;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {

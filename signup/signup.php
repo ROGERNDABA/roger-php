@@ -1,14 +1,25 @@
 <?php
 require("../config/init.php");
 
-
-$db = new Init("GetSchwifty");
 $g = new General();
 $g->CheckRequest("xmlhttpRequest");
 if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
-	echo "<small><pre>";
-	print_r($_POST);
-	echo "</pre></small>";
+	$firstname = $_POST["firstname"];
+	$lastname = $_POST["lastname"];
+	$username = $_POST["username"];
+	$email = $_POST["email"];
+	$password1 = $_POST["password"];
+	$password2 = $_POST["password2"];
+	$db = new Init("GetSchwifty");
+	if ($db) {
+		if (!trim($firstname) || !preg_match('/^[a-zA-Z]\'?[-a-zA-Z]+$/', $firstname)) {
+			echo $firstname;
+		}
+		if (!trim($lastname) || !preg_match('/^[a-zA-Z]\'?[-a-zA-Z]+$/', $lastname)) {
+			echo $lastname;
+		}
+		
+	} 
 	exit;
 }
 ?>
@@ -26,27 +37,43 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 				<form id="signup-form">
 					<div class="form-row justify-content-center">
 						<div class="form-group col-md-6 mb-0">
-							<label for="username" class="col-form-label col-form-label-sm">Username</label>
+							<label for="username" class="col-form-label col-form-label-sm pb-0">Username</label>
 							<input type="text" class="form-control" id="username" name="username" placeholder="Username" />
 						</div>
 						<div class="form-group col-md-6 mb-0">
-							<label for="email" class="col-form-label col-form-label-sm">Email</label>
+							<label for="email" class="col-form-label col-form-label-sm pb-0">Email</label>
 							<input type="email" class="form-control" id="email" name="email" placeholder="Email" />
 						</div>
 						<div class="form-group col-md-6 mb-0">
-							<label for="firstname" class="col-form-label col-form-label-sm">Firstname</label>
+							<label for="firstname" class="col-form-label col-form-label-sm pb-0">Firstname</label>
 							<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Firstname" />
 						</div>
 						<div class="form-group col-md-6 mb-0">
-							<label for="lastname" class="col-form-label col-form-label-sm">Lastname</label>
+							<label for="lastname" class="col-form-label col-form-label-sm pb-0">Lastname</label>
 							<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Lastname" />
 						</div>
 						<div class="form-group col-md-6 mb-0">
-							<label for="password1" class="col-form-label col-form-label-sm">Password</label>
+							<label for="password1" class="col-form-label col-form-label-sm pb-0">Password</label>
 							<input type="password" class="form-control" id="password1" placeholder="Password" name="password1" />
+							<div class="meter form-text">
+								<div class="meter-bar">
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="5px" >
+										<defs> 
+										<linearGradient id="lgrad" x1="0%" y1="50%" x2="100%" y2="50%" > 
+										<stop offset="0%" style="stop-color:rgb(255,0,0);stop-opacity:1" />
+										<stop offset="49%" style="stop-color:rgb(255,245,59);stop-opacity:1" />
+										<stop offset="100%" style="stop-color:rgb(0,255,38);stop-opacity:1" />
+										</linearGradient> 
+										</defs>
+										<rect x="0" y="0" width="100%" height="100%" fill="url(#lgrad)"/>
+										</svg>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="form-group col-md-6 mb-0">
-							<label for="password2" class="col-form-label col-form-label-sm">Confirm Password</label>
+							<label for="password2" class="col-form-label col-form-label-sm pb-0">Confirm Password</label>
 							<input type="password" class="form-control" id="password2" placeholder="Cornfirm Password" name="password2" />
 						</div>
 						<div class="form-group col-md-6 mt-4">

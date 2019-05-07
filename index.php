@@ -97,6 +97,16 @@
         return o;
     };
 
+    function meter(input) {
+      var level = 0;
+      level += (input.length > 6) ? 1 : 0;
+      level += /[!@#$%^&*?_~]{1,}/.test(input) ? 1 : 0;
+      level += /[a-z]{2,}/.test(input) ? 1 : 0;
+      level += /[A-Z]{1,}/.test(input) ? 1 : 0;
+      level += /[0-9]{1,}/.test(input) ? 1 : 0;
+      return level;
+    }
+
     function formValidator(form, error) {
       $(form).on("input", function() {
         $(error).html("");
@@ -113,6 +123,19 @@
             $(error).append($("<li></li>").html("Only A-Z, a-z, 0-9 and _ allowed "+inputName));
           else if((inputName == "email") && inputVal&& !emailRegex.test(inputVal))
             $(error).append($("<li></li>").html("Formart should be example@domain.com"));
+          else if (inputName == "password1") {
+            meterVal = meter(inputVal);
+            $(".meter-bar").stop();
+            $(".meter-bar").animate({
+              width: ((meterVal/5)*100)+"%"
+            }, 300);
+          }
+          else if ((inputName == "password2") && inputVal) {
+            if (meterVal < 4)
+              $(error).append($("<li></li>").html("Password too weak"));
+            if (inputVal != $("input[name='password1']").val())
+              $(error).append($("<li></li>").html("Passwords don't match"));
+          }
           if (!inputVal) track++;
         })
         if (track == 0 && !$(error).html().trim()) {
