@@ -1,17 +1,44 @@
-<pre>
 <?php
 require("../config/init.php");
+require("../config/dataHandler.php");
 
-$db = new Init("GetSchwifty");
 $g = new General();
 $g->CheckRequest("XMLHttpRequest");
 
+$response = array("form_error" => "", "error" => "", "success" => "");
+if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
+	unset($_POST["submit"]);
+	foreach ($_POST as $key => $value) {
+		if(!$value) {
+			$response["form_error"] .= "<li>".ucfirst($key)." is too short or empty</li>";
+		}
+	}
+	if ($response["form_error"]) {
+		echo json_encode($response);
+		exit;
+	}
 
-if ($db) {
-  // print_r($db);
+	$email =		isset($_POST["email"])? $_POST["email"] : "";
+	$password =	isset($_POST["password"])? $_POST["password"] : "";
+	$initClass = new Init("GetSchwifty");
+	$db = $initClass->getDB();
+	if ($db) {
+		if (!$email && !preg_match('/^[A-Za-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{1,4}[^\\S]+$/', $email))
+			$response["form_error"] .= "<li>Email has incorrect formart</li>";
+		if(!$response["form_error"]) {
+			$dh = new DataHandler($db);
+			$validate = $dh->ValidateLogin($email, $password);
+			echo "sdfsdfds";
+			exit;
+		}
+	} else {
+			echo "Something went wrong";
+			exit;
+	}
+	echo json_encode($response);
+	exit;
 }
 ?>
-</pre>
 <div class="row justify-content-center">
 	<div class="col-md-6">
 		<div class="card">
@@ -26,8 +53,8 @@ if ($db) {
 				<form id="login-form">
 					<div class="form-row justify-content-center">
 						<div class="form-group col-md-8 mb-0">
-							<label for="username" class="col-form-label col-form-label-sm pt-0">Username</label>
-							<input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+							<label for="email" class="col-form-label col-form-label-sm pt-0">Email</label>
+							<input type="email" class="form-control" id="email" name="email" placeholder="Email" />
 						</div>
 						<div class="form-group col-md-8 mb-0">
 							<label for="password" class="col-form-label col-form-label-sm pt-0">Password</label>
@@ -60,7 +87,32 @@ if ($db) {
 
 		$("#login-form").submit(function(e) {
 			e.preventDefault();
-			console.log($(this).serializeObject());
+			var formData = $(this).serializeObject();
+			formData["submit"] = "ok";
+			$.ajax({
+				type: "POST",
+				url: "/login/login.php",
+				data: formData,
+				success: function (res) {
+					try {
+							var response = JSON.parse(res);
+							// if (response.form_error) {
+							// 	$("#form-error").html(response.form_error);
+							// } else if(response.error) {
+							// } else {
+							// 	window.location.href = "http://"+window.location.hostname;
+							// }
+							console.log(response);
+					} catch (e) {
+							console.log(res);
+						if(res.trim()) {
+							$(".container").prepend("<small>"+res+"</small>");
+						} else {
+							window.location.href = "http://"+window.location.hostname;
+						}
+					}
+				}
+			});
 		});
 	});
 </script>

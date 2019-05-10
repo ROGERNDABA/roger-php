@@ -1,21 +1,5 @@
 <?php
-// header('Access-Control-Allow-Origin: *');
-// header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-// header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
-// $servername = "localhost";
-// $username = "root";
-// $password = "Rootroot2%";
-
-// try {
-//     $conn = new PDO("mysql:host=$servername;", $username, $password);
-//     // set the PDO error mode to exception
-//     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//     // echo "Connected successfully";
-// }
-// catch(PDOException $e) {
-//     // echo "Connection failed: " . $e->getMessage();
-// }
-
+session_start()
 ?>
 
 <html lang="en">
@@ -36,7 +20,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg r-shadow">
+  <nav class="navbar navbar-expand-md r-shadow">
     <a class="navbar-brand" href="#"><img width="50" class="d-inline-block align-top" src="https://seeklogo.com/images/M/marvel-comics-logo-31D9B4C7FB-seeklogo.com.png" alt="" srcset=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -46,12 +30,20 @@
         <li class="nav-item active">
           <a class="nav-link" href="home">Home</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="signup">Sign Up</a>
-        </li>
+        <?php
+        if (isset($_SESSION) && $_SESSION["loggedin"]) {
+        ?>
+          <li class="nav-item">
+            <a class="nav-link" href="logout">Logout</a>
+          </li>
+        <?php } else { ?>
+          <li class="nav-item">
+            <a class="nav-link" href="login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="signup">Sign Up</a>
+          </li>
+        <?php } ?>
       </ul>
   </nav>
   <div class="root">
@@ -168,8 +160,12 @@
     $('.nav-link').click(function (e) {
       e.preventDefault();
       var path = $(this).attr("href");
-
-      $(".container").load("/" + path + "/" + path + ".php");
+      if (path === "logout") {
+        $(".container").load("/" + path + "/" + path + ".php");
+        window.location.href = "http://"+window.location.hostname;
+      }else {
+        $(".container").load("/" + path + "/" + path + ".php");
+      }
       resolveActiveTab(path)
       window.history.pushState("", "", "/" + path +"/");
     })

@@ -1,5 +1,3 @@
-<style>
-
-
-</style>
-
+<?php
+print_r($_SERVER);
+?>

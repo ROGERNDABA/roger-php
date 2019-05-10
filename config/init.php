@@ -8,11 +8,17 @@ class Init {
 
     function __construct($db) {
         try {
-            $conn = new PDO("mysql:host=$this->servername;dbname=$db", $this->username, $this->password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $this->conn;
+            $this->conn = new PDO("mysql:host=$this->servername;dbname=$db", $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
             echo "Something went teribbly wrong";
+            exit;
+        }
+    }
+
+    public function getDB() {
+        if ($this->conn instanceof PDO) {
+            return $this->conn;
         }
     }
 }
