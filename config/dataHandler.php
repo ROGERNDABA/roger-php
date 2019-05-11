@@ -37,9 +37,11 @@ class DataHandler {
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
     $res = $stmt->fetch();
-    print_r($res);
-    if (!empty($res)) {
+    if ($res) {
+      $passwordMatch = password_verify($password, $res["Password"]);
+      return ($passwordMatch) ? $res : [];
     }
+    return [];
   }
 
   public function RegisterUser($firstname, $lastname, $username, $email, $password) {

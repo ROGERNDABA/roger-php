@@ -172,7 +172,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 							}
 					} catch (e) {
 						if(res.trim()) {
-							$(".container").prepend("<small>"+res+"</small>");
+							$("#body-container").prepend("<small>"+res+"</small>");
 						} else {
 							window.location.href = "http://"+window.location.hostname;
 						}

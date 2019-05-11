@@ -2,6 +2,10 @@
 require("../config/init.php");
 require("../config/dataHandler.php");
 
+if (isset($_SESSION)) {
+	session_destroy();
+}
+
 $g = new General();
 $g->CheckRequest("XMLHttpRequest");
 
@@ -28,8 +32,15 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 		if(!$response["form_error"]) {
 			$dh = new DataHandler($db);
 			$validate = $dh->ValidateLogin($email, $password);
-			echo "sdfsdfds";
-			exit;
+			if (!$validate) {
+				$response["form_error"] .= "<li>Invalid email or password</li>";
+			} else {
+					session_start();
+					$_SESSION["loggedin"] = 1;
+					$_SESSION["email"] = $email;
+					$_SESSION["Role"] = $validate["Role"];
+					exit;
+			}
 		}
 	} else {
 			echo "Something went wrong";
@@ -96,17 +107,17 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 				success: function (res) {
 					try {
 							var response = JSON.parse(res);
-							// if (response.form_error) {
-							// 	$("#form-error").html(response.form_error);
-							// } else if(response.error) {
-							// } else {
-							// 	window.location.href = "http://"+window.location.hostname;
-							// }
+							if (response.form_error) {
+								$("#form-error").html(response.form_error);
+							} else if(response.error) {
+							} else {
+								window.location.href = "http://"+window.location.hostname;
+							}
 							console.log(response);
 					} catch (e) {
 							console.log(res);
 						if(res.trim()) {
-							$(".container").prepend("<small>"+res+"</small>");
+							$("#body-container").prepend("<small>"+res+"</small>");
 						} else {
 							window.location.href = "http://"+window.location.hostname;
 						}
