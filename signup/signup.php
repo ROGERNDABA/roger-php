@@ -77,9 +77,9 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "ok") {
 }
 ?>
 <div class="row justify-content-center">
-	<div class="col-lg-8">
+	<div class="col-md-6">
 		<div class="card">
-			<div class="card-header">Login</div>
+			<div class="card-header text-center h4">Sign Up</div>
 			<div class="card-body pt-1">
 				<div class="col-sm-12 px-0 pb-2 mx-auto">
         	<small>

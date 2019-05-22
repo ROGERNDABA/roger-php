@@ -1,4 +1,5 @@
 function resolveUrl(url) {
+	console.log(url);
 	var path = url.replace(/\//gi, "").trim();
 	if (path) {
 		$("#body-container").load("/" + path + "/" + path + ".php");

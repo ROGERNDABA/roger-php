@@ -14,6 +14,7 @@ session_start()
 		<!-- Fontawesome 5 Free -->
 		<link rel="stylesheet" href="/public/fontawesome/css/all.css" />
 		<link rel="stylesheet" href="/public/css/style.css" />
+		<link rel="stylesheet" href="/public/css/select-menu.css">
 		<script src="/public/js/jquery.js"></script>
 		<script src="/public/popper.js-1.15.0/dist/umd/popper.js"></script>
 		<script src="/public/bootstrap/js/bootstrap.js"></script>
@@ -34,7 +35,7 @@ session_start()
 						</a>
 					</li>
 					<?php
-          if (isset($_SESSION) && $_SESSION["loggedin"]) {
+          if (isset($_SESSION) && isset($_SESSION["loggedin"])) {
           ?>
 					<li class="nav-item">
 						<a class="nav-link" href="logout" data-toggle="tooltip" title="Logout">
@@ -56,10 +57,8 @@ session_start()
 				</ul>
 			</div>
     </nav>
-    
-    <div class="container-fluid" id="option-container">dfdf</div>
 		<div class="root">
-			<div class="container mt-3" id="body-container"></div>
+			<div class="container-fluid mt-3" id="body-container"></div>
 			<div id="loader">
 				<div class="spinner"><i class="fas fa-spinner fa-spin"></i></div>
 			</div>
