@@ -18,7 +18,8 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `GetSchwifty`
---
+
+USE GetSchwifty;
 
 -- --------------------------------------------------------
 

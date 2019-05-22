@@ -2,16 +2,17 @@
 
 class Init {
     private $conn;
-    private $servername = "localhost";
+    private $servername = "mysql";
     private $username = "admin";
-    private $password = "Ndabezitha2%";
+    private $password = "Rootroot2";
 
     function __construct($db) {
         try {
             $this->conn = new PDO("mysql:host=$this->servername;dbname=$db", $this->username, $this->password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            echo "Something went teribbly wrong";
+            echo $e."<br>";
+            echo "Something went teribbly wrong -->";
             exit;
         }
     }
